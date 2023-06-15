@@ -35,7 +35,7 @@ ITERATION = int(get_parameter('iteration', 0))
 CONTINUE = "continue" in sys.argv
 
 FADE_IN_EPOCHS = 10
-BATCH_SIZE = 16
+BATCH_SIZE = 2
 GRADIENT_PENALTY_WEIGHT = 10
 NUMBER_OF_EPOCHS = int(get_parameter('epochs', 250))
 
@@ -219,10 +219,12 @@ def train():
             slice_voxels = slice_voxels.reshape(VOXEL_RESOLUTION, VOXEL_RESOLUTION, VOXEL_RESOLUTION)
             tqdm.write(create_text_slice(slice_voxels / SDF_CLIPPING))
 
+        log_file = open(LOG_FILE_NAME, "a")
+
         log_file.write(
             '{:d} {:.1f} {:.4f} {:.4f} {:.4f}\n'.format(epoch, time.time() - epoch_start_time, prediction_fake,
                                                         prediction_real, recent_gradient_penalty))
-        log_file.flush()
+        log_file.close()
 
 
 if __name__ == '__main__':
